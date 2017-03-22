@@ -1,0 +1,26 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "semi": 1,
+    "no-console": 0,
+    "no-unused-vars": 1,
+    "no-debugger": 1,
+    "indent": [1, 2, {"SwitchCase": 1}],
+    "linebreak-style": [1, "unix"]
+  }
+}
