@@ -1,0 +1,31 @@
+{
+  "name": "week5-globetown-news-ammp",
+  "version": "1.0.0",
+  "description": "News",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "tape \"bTest/**/*.test.js\" | tap-spec",
+    "test:watch": "onchange \"src/**/*.js\" \"bTest/**/*.js\" -i -- npm test",
+    "cover": "istanbul cover tape -- -R spec \"bTest/**/*.test.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FAC10/week5-globetown-news-ammp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FAC10/week5-globetown-news-ammp/issues"
+  },
+  "homepage": "https://github.com/FAC10/week5-globetown-news-ammp#readme",
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "nodemon": "^1.11.0",
+    "onchange": "^3.2.1",
+    "shot": "^3.4.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3"
+  }
+}
