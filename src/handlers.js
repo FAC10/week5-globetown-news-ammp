@@ -4,8 +4,8 @@ const urlModule = require('url');
 
 
 require('env2')('.env');
-console.log('newsKey', process.env.newsKey);
-console.log('tflKey', process.env.tflKey);
+// console.log('newsKey', process.env.newsKey);
+// console.log('tflKey', process.env.tflKey);
 
 
 const handlers = {};
