@@ -15,21 +15,24 @@ console.log('newsKey', process.env.newsKey);
 const handlers = {};
 
 handlers.ServeNews = (req, res) => {
-  request('https://content.guardianapis.com/search?api-key=' + process.env.newsKey + '&show-fields=thumbnail,headline,trailText', (err, response, body) => {
-    // console.log('error', err);
-    // console.log('response', response && response.statusCode);
-    var ourResults = JSON.parse(body);
-    var newsObj = {};
-    newsObj.error = err;
-    newsObj.articles = [];
-    ourResults.response.results.forEach((story) => {
-      newsObj.articles.push(story.fields);
+  var newsObj = {};
+  request(`https://content.guardianapis.com/search?api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText`,
+    (err, response, body) => {
+      // console.log('error', err);
+      // console.log('response', response && response.statusCode);
+      var ourResults = JSON.parse(body);
+      newsObj.error = err;
+      newsObj.articles = [];
+      ourResults.response.results.forEach((story) => {
+        newsObj.articles.push(story.fields);
+      });
+      console.log('newsObj', newsObj);
+      res.writeHead(200, {
+        'content-type': 'application/json'
+      });
+      res.end(JSON.stringify(newsObj));
     });
-    console.log('newsObj', newsObj);
-  });
-
 };
-handlers.ServeNews();
 
 
 handlers.serveLanding = (req, res) => {
