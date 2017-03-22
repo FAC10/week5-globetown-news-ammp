@@ -14,7 +14,7 @@ console.log('newsKey', process.env.newsKey);
 
 const handlers = {};
 
-handlers.ServeNews = (req, res) => {
+handlers.serveNews = (req, res) => {
   var newsObj = {};
   request(`https://content.guardianapis.com/search?api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText`,
     (err, response, body) => {
