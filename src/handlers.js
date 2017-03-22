@@ -1,18 +1,41 @@
 const fs = require('fs');
 const path = require('path');
 const urlModule = require('url');
+const request = require('request');
 
 
-require('env2')('.env');
-// console.log('newsKey', process.env.newsKey);
+
+var env = require('env2');
+env('.env');
+console.log('newsKey', process.env.newsKey);
 // console.log('tflKey', process.env.tflKey);
+
 
 
 const handlers = {};
 
+handlers.ServeNews = (req, res) => {
+  request('https://content.guardianapis.com/search?api-key=' + process.env.newsKey + '&show-fields=thumbnail,headline,trailText', (err, response, body) => {
+    // console.log('error', err);
+    // console.log('response', response && response.statusCode);
+    var ourResults = JSON.parse(body);
+    var newsObj = {};
+    newsObj.error = err;
+    newsObj.articles = [];
+    ourResults.response.results.forEach((story) => {
+      newsObj.articles.push(story.fields);
+    });
+    console.log('newsObj', newsObj);
+  });
+
+};
+handlers.ServeNews();
+
 
 handlers.serveLanding = (req, res) => {
-  res.writeHead(200, {'Content-Type':'text/html'});
+  res.writeHead(200, {
+    'Content-Type': 'text/html'
+  });
   const readStream = fs.createReadStream(path.join(__dirname, '..', 'public', 'index.html'));
   readStream.pipe(res);
 };
@@ -30,7 +53,9 @@ function getContentType(url) {
 
 
 handlers.serveAssets = (req, res) => {
-  res.writeHead(200, {'Content-Type': getContentType(req.url)});
+  res.writeHead(200, {
+    'Content-Type': getContentType(req.url)
+  });
   const readStream = fs.createReadStream(path.join(__dirname, '..', 'public', req.url));
   readStream.pipe(res);
 };
