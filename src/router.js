@@ -4,7 +4,7 @@ const router = (req, res) => {
   const url = req.url;
 
   if (url ==='/') {
-
+    handlers.ServeNews(req,res);
     handlers.serveLanding(req, res);
 
   } else if (url.indexOf('/assets') === 0) {

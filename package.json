@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/FAC10/week5-globetown-news-ammp#readme",
   "dependencies": {
-    "env2": "^2.1.1"
+    "env2": "^2.1.1",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "istanbul": "^0.4.5",
