@@ -1,0 +1,10 @@
+language: node_js
+
+node_js:
+  - "7"
+
+script:
+  npm run cover
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
