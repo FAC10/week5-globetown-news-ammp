@@ -14,8 +14,10 @@ function fetch(method, url, handleResponseCallback) {
 
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      var jsonObj = JSON.parse(xhr.responseText);
-      handleResponseCallback(null, jsonObj);
+
+      // var jsonObj = JSON.parse(xhr.responseText);
+      // handleResponseCallback(null, jsonObj);
+      handleResponseCallback(null, xhr.responseText);
     }
   };
 
