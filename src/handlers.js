@@ -2,6 +2,11 @@ const fs = require('fs');
 const path = require('path');
 
 
+const env = require ('env2')('../.env');
+console.log('newsKey', process.env.newsKey);
+console.log('tflKey', process.env.tflKey);
+
+
 const handlers = {};
 
 handlers.serveLanding = (req, res) => {
@@ -15,20 +20,3 @@ handlers.serveLanding = (req, res) => {
 };
 
 module.exports = handlers;
-
-//
-// handler.serveStatic = (req, res, page) => {
-//
-//   const filePath = path.join(__dirname, '..', 'public', page);
-//   const pageContents = fs.createReadStream(filePath);
-//
-//   pageContents.on('error', (err) => {
-//     handler.serveError(req, res, err);
-//   });
-//
-//   pageContents.on('open', () => {
-//     res.writeHead(200, {'content-type':'text/html'});
-//     pageContents.pipe(res);
-//   });
-//
-// };
