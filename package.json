@@ -20,8 +20,10 @@
     "url": "https://github.com/FAC10/week5-globetown-news-ammp/issues"
   },
   "homepage": "https://github.com/FAC10/week5-globetown-news-ammp#readme",
+  "dependencies": {
+    "env2": "^2.1.1"
+  },
   "devDependencies": {
-    "env2": "^2.1.1",
     "istanbul": "^0.4.5",
     "nodemon": "^1.11.0",
     "onchange": "^3.2.1",
