@@ -1,32 +1,38 @@
 const fs = require('fs');
 const path = require('path');
-const urlModule = require('url');
+const prettyjson = require('prettyjson');
 const request = require('request');
 
 
 
 var env = require('env2');
 env('.env');
-console.log('newsKey', process.env.newsKey);
-// console.log('tflKey', process.env.tflKey);
 
 
 
 const handlers = {};
 
+/**
+ * This handler makes a request to the guardian API
+ *
+ * @param {Stream} req This is the request object
+ * @param {stream} res This is the response object
+ * @returns {Object} Outputs JSON data to front end
+ */
 handlers.serveNews = (req, res) => {
   var newsObj = {};
-  request(`https://content.guardianapis.com/search?api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText`,
+  request(`https://content.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
     (err, response, body) => {
-      // console.log('error', err);
-      // console.log('response', response && response.statusCode);
+
       var ourResults = JSON.parse(body);
-      newsObj.error = err;
-      newsObj.articles = [];
-      ourResults.response.results.forEach((story) => {
-        newsObj.articles.push(story.fields);
+      var newsObj = ourResults.response.results.map((story) => {
+        return story.fields;
       });
-      console.log('newsObj', newsObj);
+      newsObj.error = err;
+      // ourResults.response.results.forEach((story) => {
+      //   newsObj.articles.push(story.fields);
+      // });
+      console.log('newsObj', prettyjson.render(newsObj));
       res.writeHead(200, {
         'content-type': 'application/json'
       });
@@ -34,7 +40,13 @@ handlers.serveNews = (req, res) => {
     });
 };
 
-
+/**
+ * Serves the landing page
+ *
+ * @param {Stream Object} req The request object
+ * @param {Stream Object} res The response object
+ * @returns {HTML} Pipes the response to the front end
+ */
 handlers.serveLanding = (req, res) => {
   res.writeHead(200, {
     'Content-Type': 'text/html'
@@ -44,6 +56,12 @@ handlers.serveLanding = (req, res) => {
 };
 
 
+/**
+ * Takes a URL that splits off the extension and returns and extension type
+ *
+ * @param {string} url the url string
+ * @returns {Object} Content type
+ */
 function getContentType(url) {
   const extension = path.extname(url);
   const extensionType = {
@@ -55,6 +73,13 @@ function getContentType(url) {
 }
 
 
+/**
+ * Serves our assets
+ *
+ * @param {} req Stream object
+ * @param {Stream object} res The response object
+ * @returns {content type and asset} pipes asset to the front end
+ */
 handlers.serveAssets = (req, res) => {
   res.writeHead(200, {
     'Content-Type': getContentType(req.url)
