@@ -48,6 +48,7 @@ function renderResponse(err, res) {
         </h3>
       </li>
     `;
+    return;
   }
 
   console.log(res);
