@@ -4,7 +4,7 @@
 const app = (function() {
 
   let activeSection = 'news';
-  fetch('GET', `http://localhost:4000/${activeSection}`, renderResponse);
+  fetch('GET', `/${activeSection}`, renderResponse);
 
   const travelBtnDOM = document.getElementById('js-travel-btn');
   const newsBtnDOM = document.getElementById('js-news-btn');
@@ -22,7 +22,7 @@ const app = (function() {
       navSectionsLookup[activeSection].classList.remove('nav__item--selected');
       activeSection = clickedSection;
       navSectionsLookup[activeSection].classList.add('nav__item--selected');
-      fetch('GET', `http://localhost:4000/${activeSection}`, renderResponse);
+      fetch('GET', `/${activeSection}`, renderResponse);
     }
   };
 
