@@ -3,7 +3,7 @@
 // *************************************************
 const app = (function() {
 
-  let activeSection = 'news';
+  let activeSection = 'travel';
   fetch('GET', `/${activeSection}`, renderResponse);
 
   const travelBtnDOM = document.getElementById('js-travel-btn');
@@ -51,7 +51,33 @@ function renderResponse(err, res) {
     return;
   }
 
-  console.log(res);
+  if (res.arrivals) {
+    renderTravel(res);
+  } else {
+    renderNews(res);
+  }
+}
+
+
+function renderTravel(res) {
+  listItemsDOM.innerHTML = '';
+
+  listItemsDOM.innerHTML = res.arrivals
+    .map(arrival => Object.assign({}, arrival, {secondsToStation: Number(arrival.secondsToStation)}) )
+    .sort((arrival, nextArrival) => arrival.secondsToStation - nextArrival.secondsToStation)
+    .map((arrival) => {
+      return `
+        <li class="card__item card__item--travel">
+          <span class="travel__destination">${arrival.destination}</span>
+          <span class="travel__time">${secToMin(Number(arrival.secondsToStation))}</span>
+          <span class="travel__platform">${arrival.platform}</span>
+        </li>
+      `;
+    }).join('');
+}
+
+
+function renderNews(res) {
   listItemsDOM.innerHTML = '';
 
   listItemsDOM.innerHTML = res.articles.map((article) => {
@@ -64,10 +90,11 @@ function renderResponse(err, res) {
   }).join('');
 }
 
-// Function that converts minutes to seconds and adds '0' when needed
 
-function secToMin(s){return(s-(s%=60))/60+(9<s?':':':0')+s}
-console.log(secToMin(320));
+function secToMin(seconds) {
+  return (seconds - (seconds %= 60)) / 60 + (9 < seconds ? ':' : ':0') + seconds;
+}
+
 
 
 
@@ -75,7 +102,6 @@ console.log(secToMin(320));
 // FETCH
 // *************************************************
 function fetch(method, url, handleResponseCallback) {
-  console.log(url);
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
