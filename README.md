@@ -1,8 +1,8 @@
 # week-5-globetown-news-ammp
 
 
-[![Build Status](https://travis-ci.org/FAC10/week-5-globetown-news-ammp.svg?branch=master)](https://travis-ci.org/FAC10/week-5-globetown-news-ammp)
-[![Code Coverage](https://codecov.io/gh/FAC10/week-5-globetown-news-ammp/branch/master/graph/badge.svg)](https://codecov.io/gh/FAC10/week-5-globetown-news-ammp)
+[![Build Status](https://travis-ci.org/FAC10/week5-globetown-news-ammp.svg?branch=master)](https://travis-ci.org/FAC10/week-5-globetown-news-ammp)
+[![Code Coverage](https://codecov.io/gh/FAC10/week5-globetown-news-ammp/branch/master/graph/badge.svg)](https://codecov.io/gh/FAC10/week5-globetown-news-ammp)
 
 Live version: https://globetown-news-app.herokuapp.com/
 
