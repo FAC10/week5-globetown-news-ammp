@@ -12,8 +12,12 @@ test('Initialise tests', (t) => {
 
 const fake = [
   {method: 'GET', url:'/', expectedContentType:'text/html', expectedStatusCode: 200},
+  {method: 'GET', url:'/travel', expectedContentType:'application/json', expectedStatusCode: 200},
   {method: 'GET', url:'/news', expectedContentType:'application/json', expectedStatusCode: 200},
-  {method: 'GET', url:'/elephant', expectedContentType:'text/html', expectedStatusCode: 404}
+  {method: 'GET', url:'/elephant', expectedContentType:'text/html', expectedStatusCode: 404},
+  {method: 'GET', url:'/assets/style.css', expectedContentType:'text/css', expectedStatusCode: 200},
+  {method: 'GET', url:'/assets/favicon.ico', expectedContentType:'image/x-icon', expectedStatusCode: 200},
+  {method: 'GET', url:'/assets/app.js', expectedContentType:'application/javascript', expectedStatusCode: 200}
 ];
 
 
@@ -45,13 +49,11 @@ test('Test getContentType function', (t) => {
 });
 
 
-// test('Test serve news handler', (t) => {
-//   shot.inject(router,{method:'GET',url:'/news'},(res) => {
-//     t.equal(res.statusCode, 200,'Should return correct Status Code');
-//     t.equal(res.headers['content-type'],'application/json','Should return correct content type');
-//     const resObj = JSON.parse(res.payload);
-//     t.equal(typeof resObj,'object','Expect the typeof the payload to be an object');
-//     t.ok(Array.isArray(resObj.articles),'Expect the type of the payload articles property to be an array');
-//     t.end();
-//   });
-// });
+test('Test serve news handler', (t) => {
+  shot.inject(router,{method:'GET',url:'/news'},(res) => {
+    const resObj = JSON.parse(res.payload);
+    t.equal(typeof resObj,'object','Expect the typeof the payload to be an object');
+    t.ok(Array.isArray(resObj.articles),'Expect the type of the payload articles property to be an array');
+    t.end();
+  });
+});
