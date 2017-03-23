@@ -21,7 +21,7 @@ const handlers = {};
   * @returns {Object} Outputs JSON data to front end
   */
 handlers.serveNews = (req, res) => {
-  request(`https://ontent.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
+  request(`https://content.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
     (err, response, body) => {
       const newsObj = {};
 
