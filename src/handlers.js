@@ -3,11 +3,7 @@ const path = require('path');
 // const prettyjson = require('prettyjson');
 const request = require('request');
 
-
-
-var env = require('env2');
-env('.env');
-
+require('env2')('.env');
 
 
 const handlers = {};
@@ -22,19 +18,20 @@ const handlers = {};
   */
 handlers.serveNews = (req, res) => {
   request(`https://content.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
-    (err, response, body) => {
+    (err, apiResponse, body) => {
       const newsObj = {};
 
-      if (err || !response ) {
-        newsObj.error = err;
+      const apiResponseBody = JSON.parse(body);
+
+      if (err || apiResponseBody.message) {
+        newsObj.error = err || 'News Api Error';
 
       } else {
-        const ourResults = JSON.parse(body);
-        newsObj.articles = ourResults.response.results.map((story) => {
+        newsObj.articles = apiResponseBody.response.results.map((story) => {
           return story.fields;
         });
-
         newsObj.error = null;
+
       }
 
       res.writeHead(200, { 'content-type': 'application/json' });
@@ -42,34 +39,33 @@ handlers.serveNews = (req, res) => {
     });
 };
 
+
 handlers.serveTravel = (req, res) => {
-  request(`https://api.tfl.gov.uk/StopPoint/940GZZLUBLG/Arrivals`,
-    (err, response, body) => {
-      const travelObj = {};
+  request(`https://api.tfl.gov.uk/StopPoint/940GZZLUBLG/Arrivals`, (err, apiResponse, body) => {
+    const travelObj = {};
 
-      if (err) {
-        travelObj.error = err;
+    if (err) {
+      travelObj.error = err;
 
-      } else {
-        const travelResults = JSON.parse(body);
-        // console.log('travelresults'+ travelResults[0].expectedArrival);
-        travelObj.arrivals= travelResults.map((train) => {
+    } else {
+      const travelResults = JSON.parse(body);
 
-          return {'platform': train.platformName,
-            'towards' : train.towards,
-            'line' : train.lineName,
-            'count' : train.timeToStation};
-        });
+      travelObj.arrivals = travelResults.map((train) => {
+        return {
+          'platform': train.platformName,
+          'destination': train.towards,
+          'line': train.lineName,
+          'secondsToStation': train.timeToStation
+        };
+      });
 
-        travelObj.error = null;
-      }
+      travelObj.error = null;
+    }
 
-      res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(JSON.stringify(travelObj));
-    });
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify(travelObj));
+  });
 };
-
-// handlers.serveTravel();
 
 
 /**
@@ -89,7 +85,7 @@ handlers.serveLanding = (req, res) => {
 
 
 /**
-* Takes a URL that splits off the extension and returns and extension type
+  * Takes a URL that splits off the extension and returns and extension type
   *
   * @param {string} url the url string
   * @returns {Object} Content type
@@ -121,16 +117,12 @@ handlers.serveAssets = (req, res) => {
 };
 
 
-
-
 handlers.serveNotFound = (req, res) => {
   res.writeHead(404, {
     'content-type': 'text/html'
   });
   res.end('<h1>404 Page Not Found 😩</h1>');
 };
-
-
 
 
 module.exports = handlers;
