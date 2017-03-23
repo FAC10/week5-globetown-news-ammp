@@ -42,6 +42,35 @@ handlers.serveNews = (req, res) => {
     });
 };
 
+handlers.serveTravel = (req, res) => {
+  request(`https://api.tfl.gov.uk/StopPoint/940GZZLUBLG/Arrivals`,
+    (err, response, body) => {
+      const travelObj = {};
+
+      if (err) {
+        travelObj.error = err;
+
+      } else {
+        const travelResults = JSON.parse(body);
+        // console.log('travelresults'+ travelResults[0].expectedArrival);
+        travelObj.arrivals= travelResults.map((train) => {
+
+          return {'platform': train.platformName,
+            'towards' : train.towards,
+            'line' : train.lineName,
+            'count' : train.timeToStation};
+        });
+
+        travelObj.error = null;
+      }
+
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify(travelObj));
+    });
+};
+
+// handlers.serveTravel();
+
 
 /**
 * Serves the landing page
