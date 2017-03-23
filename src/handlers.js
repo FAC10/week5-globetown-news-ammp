@@ -25,7 +25,7 @@ handlers.serveNews = (req, res) => {
     (err, response, body) => {
       const newsObj = {};
 
-      if (err) {
+      if (err || !response ) {
         newsObj.error = err;
 
       } else {
@@ -52,7 +52,7 @@ handlers.serveNews = (req, res) => {
   */
 handlers.serveLanding = (req, res) => {
   res.writeHead(200, {
-    'Content-Type': 'text/html'
+    'content-type': 'text/html'
   });
   const readStream = fs.createReadStream(path.join(__dirname, '..', 'public', 'index.html'));
   readStream.pipe(res);
@@ -65,7 +65,7 @@ handlers.serveLanding = (req, res) => {
   * @param {string} url the url string
   * @returns {Object} Content type
   */
-function getContentType(url) {
+handlers.getContentType = (url) => {
   const extension = path.extname(url);
   const extensionType = {
     '.css': 'text/css',
@@ -73,7 +73,7 @@ function getContentType(url) {
     '.ico': 'image/x-icon'
   };
   return extensionType[extension];
-}
+};
 
 
 /**
@@ -85,11 +85,23 @@ function getContentType(url) {
   */
 handlers.serveAssets = (req, res) => {
   res.writeHead(200, {
-    'Content-Type': getContentType(req.url)
+    'content-type': handlers.getContentType(req.url)
   });
   const readStream = fs.createReadStream(path.join(__dirname, '..', 'public', req.url));
   readStream.pipe(res);
 };
+
+
+
+
+handlers.serveNotFound = (req, res) => {
+  res.writeHead(404, {
+    'content-type': 'text/html'
+  });
+  res.end('<h1>404 Page Not Found 😩</h1>');
+};
+
+
 
 
 module.exports = handlers;

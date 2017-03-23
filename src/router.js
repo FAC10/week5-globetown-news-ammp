@@ -15,6 +15,10 @@ const router = (req, res) => {
 
     handlers.serveNews(req, res);
 
+  } else {
+
+    handlers.serveNotFound(req,res); 
+
   }
 
 };
