@@ -13,7 +13,8 @@
   },
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "QUnit": true
   },
   "rules": {
     "semi": 1,
