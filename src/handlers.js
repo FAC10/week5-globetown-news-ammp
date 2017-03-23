@@ -52,13 +52,14 @@ handlers.serveTravel = (req, res) => {
 
       } else {
         const travelResults = JSON.parse(body);
-        // console.log('travelresults'+ travelResults[0].expectedArrival);
-        travelObj.arrivals= travelResults.map((train) => {
 
-          return {'platform': train.platformName,
-            'towards' : train.towards,
-            'line' : train.lineName,
-            'count' : train.timeToStation};
+        travelObj.arrivals = travelResults.map((train) => {
+          return {
+            'platform': train.platformName,
+            'destination': train.towards,
+            'line': train.lineName,
+            'secondsToStation': train.timeToStation
+          };
         });
 
         travelObj.error = null;

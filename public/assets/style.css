@@ -110,6 +110,27 @@ body {
   border-bottom: solid 1px #eee;
 }
 
+.card__item--travel {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-left: solid 0.7rem rgb(220,36,31);
+}
+
+.travel__destination {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.travel__time {
+  color: rgb(0,69,110);
+  font-weight: 700;
+}
+
+.travel__platform {
+  width: 100%;
+  margin-top: 1rem;
+}
+
 .news__thumbnail {
   height: 4rem;
   margin-right: 0.5rem;
