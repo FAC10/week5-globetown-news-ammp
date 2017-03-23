@@ -25,7 +25,7 @@ handlers.serveNews = (req, res) => {
     (err, response, body) => {
       const newsObj = {};
 
-      if (err) {
+      if (err || !response ) {
         newsObj.error = err;
 
       } else {
@@ -52,7 +52,7 @@ handlers.serveNews = (req, res) => {
   */
 handlers.serveLanding = (req, res) => {
   res.writeHead(200, {
-    'Content-Type': 'text/html'
+    'content-type': 'text/html'
   });
   const readStream = fs.createReadStream(path.join(__dirname, '..', 'public', 'index.html'));
   readStream.pipe(res);
@@ -85,7 +85,7 @@ function getContentType(url) {
   */
 handlers.serveAssets = (req, res) => {
   res.writeHead(200, {
-    'Content-Type': getContentType(req.url)
+    'content-type': getContentType(req.url)
   });
   const readStream = fs.createReadStream(path.join(__dirname, '..', 'public', req.url));
   readStream.pipe(res);
