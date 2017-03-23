@@ -1,3 +1,5 @@
+var testFunc = (function() {
+
 // *************************************************
 // APP
 // *************************************************
@@ -66,8 +68,10 @@ function renderResponse(err, res) {
 
 // Function that converts minutes to seconds and adds '0' when needed
 
-function secToMin(s){return(s-(s%=60))/60+(9<s?':':':0')+s}
-console.log(secToMin(320));
+  function secToMin(s){return(s-(s%=60))/60+(9<s?':':':0')+s;}
+  return {secToMin: secToMin}
+})();
+
 
 
 
