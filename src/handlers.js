@@ -12,6 +12,7 @@ env('.env');
 
 const handlers = {};
 
+
 /**
  * This handler makes a request to the guardian API
  *
@@ -20,25 +21,25 @@ const handlers = {};
  * @returns {Object} Outputs JSON data to front end
  */
 handlers.serveNews = (req, res) => {
-  var newsObj = {};
   request(`https://content.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
     (err, response, body) => {
 
-      var ourResults = JSON.parse(body);
-      var newsObj = ourResults.response.results.map((story) => {
+      const ourResults = JSON.parse(body);
+      const newsObj = ourResults.response.results.map((story) => {
         return story.fields;
       });
       newsObj.error = err;
       // ourResults.response.results.forEach((story) => {
       //   newsObj.articles.push(story.fields);
       // });
-      console.log('newsObj', prettyjson.render(newsObj));
+      // console.log('newsObj', prettyjson.render(newsObj));
       res.writeHead(200, {
         'content-type': 'application/json'
       });
       res.end(JSON.stringify(newsObj));
     });
 };
+
 
 /**
  * Serves the landing page
@@ -76,7 +77,7 @@ function getContentType(url) {
 /**
  * Serves our assets
  *
- * @param {} req Stream object
+ * @param {Stream object} req Stream object
  * @param {Stream object} res The response object
  * @returns {content type and asset} pipes asset to the front end
  */
