@@ -17,6 +17,12 @@ const router = (req, res) => {
 
   }
 
+  else if (url.indexOf('/travel') === 0) {
+
+    handlers.serveTravel(req, res);
+
+  }
+
 };
 
 

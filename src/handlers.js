@@ -21,7 +21,7 @@ const handlers = {};
   * @returns {Object} Outputs JSON data to front end
   */
 handlers.serveNews = (req, res) => {
-  request(`https://ontent.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
+  request(`https://content.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
     (err, response, body) => {
       const newsObj = {};
 
@@ -41,6 +41,35 @@ handlers.serveNews = (req, res) => {
       res.end(JSON.stringify(newsObj));
     });
 };
+
+handlers.serveTravel = (req, res) => {
+  request(`https://api.tfl.gov.uk/StopPoint/940GZZLUBLG/Arrivals`,
+    (err, response, body) => {
+      const travelObj = {};
+
+      if (err) {
+        travelObj.error = err;
+
+      } else {
+        const travelResults = JSON.parse(body);
+        // console.log('travelresults'+ travelResults[0].expectedArrival);
+        travelObj.arrivals= travelResults.map((train) => {
+
+          return {'platform': train.platformName,
+            'towards' : train.towards,
+            'line' : train.lineName,
+            'count' : train.timeToStation};
+        });
+
+        travelObj.error = null;
+      }
+
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify(travelObj));
+    });
+};
+
+// handlers.serveTravel();
 
 
 /**
