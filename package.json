@@ -25,7 +25,6 @@
     "request": "^2.81.0"
   },
   "devDependencies": {
-    "codecov": "^2.1.0",
     "istanbul": "^0.4.5",
     "nodemon": "^1.11.0",
     "onchange": "^3.2.1",
