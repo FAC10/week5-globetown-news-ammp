@@ -18,12 +18,13 @@ const app = (function() {
 
   return {
     handleNavClick(e) {
-      if (e.target.nodeName !== 'LI') { return; }
+      e.preventDefault();
+      if (e.target.nodeName !== 'A') { return; }
       const clickedSection = e.target.dataset.section;
       if (clickedSection === activeSection) { return; }
-      navSectionsLookup[activeSection].classList.remove('nav__item--selected');
+      navSectionsLookup[activeSection].classList.remove('nav__link--selected');
       activeSection = clickedSection;
-      navSectionsLookup[activeSection].classList.add('nav__item--selected');
+      navSectionsLookup[activeSection].classList.add('nav__link--selected');
       fetch('GET', `/${activeSection}`, renderResponse);
     }
   };
