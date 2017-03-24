@@ -1,6 +1,7 @@
 // *************************************************
 // APP
 // *************************************************
+
 const app = (function() {
 
   let activeSection = 'travel';
@@ -69,7 +70,7 @@ function renderTravel(res) {
       return `
         <li class="card__item card__item--travel">
           <span class="travel__destination">${arrival.destination}</span>
-          <span class="travel__time">${secToMin(Number(arrival.secondsToStation))}</span>
+          <span class="travel__time">${testFunc.secToMin(Number(arrival.secondsToStation))}</span>
           <span class="travel__platform">${arrival.platform}</span>
         </li>
       `;
@@ -90,10 +91,11 @@ function renderNews(res) {
   }).join('');
 }
 
+ var testFunc = (function () {
+ function secToMin(s){return(s-(s%=60))/60+(9<s?':':':0')+s;}
+   return { secToMin }
+})();
 
-function secToMin(seconds) {
-  return (seconds - (seconds %= 60)) / 60 + (9 < seconds ? ':' : ':0') + seconds;
-}
 
 
 
