@@ -3,8 +3,8 @@ language: node_js
 node_js:
   - "7"
 
-script:
-  - "npm run cover"
-
+before_install:
+  - pip install --user codecov
+  
 after_success:
-  - ./node_modules/.bin/codecov -e TRAVIS_NODE_VERSION -f coverage/coverage.json
+  - codecov --file coverage/lcov.info --disable search
