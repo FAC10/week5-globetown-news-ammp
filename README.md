@@ -36,11 +36,11 @@ $ npm start
 - Server testing: shot
 
 ## Learn from your own mistakes:
-- Never load the QUnit script before your app.js!
+- The order of script tags is very important as we learned you cannot run the code in app.test.js before the code for app.js is run.
 
 ```
-  <script src="../public/assets/app.js"></script>
   <script src="https://code.jquery.com/qunit/qunit-2.1.1.js"></script>
+  <script src="../public/assets/app.js"></script>
   <script src="app.test.js"></script>
 ```
 
