@@ -3,8 +3,8 @@ language: node_js
 node_js:
   - "7"
 
-script:
-  npm run cover
-
+before_install:
+  - pip install --user codecov
+  
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov --file coverage/lcov.info --disable search

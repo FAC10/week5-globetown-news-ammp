@@ -49,11 +49,11 @@ test('Test getContentType function', (t) => {
 });
 
 
-test('Test serve news handler', (t) => {
-  shot.inject(router,{method:'GET',url:'/news'},(res) => {
-    const resObj = JSON.parse(res.payload);
-    t.equal(typeof resObj,'object','Expect the typeof the payload to be an object');
-    t.ok(Array.isArray(resObj.articles),'Expect the type of the payload articles property to be an array');
-    t.end();
-  });
-});
+// test('Test serve news handler', (t) => {
+//   shot.inject(router,{method:'GET',url:'/news'},(res) => {
+//     const resObj = JSON.parse(res.payload);
+//     t.equal(typeof resObj,'object','Expect the typeof the payload to be an object');
+//     t.ok(Array.isArray(resObj.articles),'Expect the type of the payload articles property to be an array');
+//     t.end();
+//   });
+// });

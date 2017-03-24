@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "tape \"bTest/**/*.test.js\" | tap-spec",
+    "test": "node bTest/router-handlers.test.js | tap-spec",
     "test:watch": "onchange \"src/**/*.js\" \"bTest/**/*.js\" -i -- npm test",
-    "cover": "istanbul cover tape -- -R spec \"bTest/**/*.test.js\""
+    "cover": "istanbul cover bTest/router-handlers.test.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "request": "^2.81.0"
   },
   "devDependencies": {
+    "codecov": "^2.1.0",
     "istanbul": "^0.4.5",
     "nodemon": "^1.11.0",
     "onchange": "^3.2.1",
