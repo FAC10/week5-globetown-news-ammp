@@ -15,6 +15,8 @@ const fake = [
   {method: 'GET', url:'/travel', expectedContentType:'application/json', expectedStatusCode: 200, expectedArray: 'arrivals'},
   {method: 'GET', url:'/', expectedContentType:'text/html', expectedStatusCode: 200},
   {method: 'GET', url:'/elephant', expectedContentType:'text/html', expectedStatusCode: 404},
+  {method: 'GET', url:'/assets/elephant.css', expectedContentType:'text/html', expectedStatusCode: 404},
+  {method: 'GET', url:'/assets/bugsss.css', expectedContentType:'text/html', expectedStatusCode: 404},
   {method: 'GET', url:'/assets/style.css', expectedContentType:'text/css', expectedStatusCode: 200},
   {method: 'GET', url:'/assets/favicon.ico', expectedContentType:'image/x-icon', expectedStatusCode: 200},
   {method: 'GET', url:'/assets/app.js', expectedContentType:'application/javascript', expectedStatusCode: 200}
