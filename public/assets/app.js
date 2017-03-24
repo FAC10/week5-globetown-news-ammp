@@ -2,6 +2,7 @@
 // *************************************************
 // APP
 // *************************************************
+
 const app = (function() {
 
   let activeSection = 'travel';
@@ -95,6 +96,9 @@ function renderNews(res) {
 function secToMin(seconds) {
   return (seconds - (seconds %= 60)) / 60 + (9 < seconds ? ':' : ':0') + seconds;
 }
+
+
+
 
 
 // *************************************************
