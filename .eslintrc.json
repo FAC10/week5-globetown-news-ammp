@@ -14,7 +14,7 @@
   "env": {
     "browser": true,
     "node": true,
-    "QUnit": true
+    "qunit": true
   },
   "rules": {
     "semi": 1,
