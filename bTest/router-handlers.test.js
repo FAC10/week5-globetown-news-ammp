@@ -56,12 +56,12 @@ test('Test getContentType function', (t) => {
 const expectedArray = [fake[0], fake[1]];
 expectedArray.forEach((route)=> {
   const{expectedArray, url} = route;
-  test('Test serve travel handler', (t) => {
+  test(`Test ${url} handler`, (t) => {
     shot.inject(router,{method:'GET',url:url},(res) => {
       const resObj = JSON.parse(res.payload);
 
-      t.equal(typeof resObj,'object','Expect the typeof the payload to be an object');
-      t.ok(Array.isArray(resObj[expectedArray]),'Expect the type of the payload articles property to be an array');
+      t.equal(typeof resObj,'object',`Expect the typeof the ${url} payload to be an object`);
+      t.ok(Array.isArray(resObj[expectedArray]),`Expect the type of the ${url} payload articles property to be an array`);
       t.end();
     });
 
