@@ -21,10 +21,9 @@ const router = (req, res) => {
 
   } else {
 
-    handlers.serveNotFound(req,res); 
+    handlers.serveNotFound(req,res);
 
   }
-
 
 };
 

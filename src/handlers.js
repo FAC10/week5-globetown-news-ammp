@@ -10,66 +10,7 @@ const handlers = {};
 
 
 /**
-* This handler makes a request to the guardian API
-  *
-  * @param {Stream} req This is the request object
-  * @param {stream} res This is the response object
-  * @returns {Object} Outputs JSON data to front end
-  */
-handlers.serveNews = (req, res) => {
-  request(`https://content.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
-    (err, apiResponse, body) => {
-      const newsObj = {};
-
-      const apiResponseBody = JSON.parse(body);
-
-      if (err || apiResponseBody.message) {
-        newsObj.error = err || 'News Api Error';
-
-      } else {
-        newsObj.articles = apiResponseBody.response.results.map((story) => {
-          return story.fields;
-        });
-        newsObj.error = null;
-
-      }
-
-      res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(JSON.stringify(newsObj));
-    });
-};
-
-
-handlers.serveTravel = (req, res) => {
-  request(`https://api.tfl.gov.uk/StopPoint/940GZZLUBLG/Arrivals`, (err, apiResponse, body) => {
-    const travelObj = {};
-
-    if (err) {
-      travelObj.error = err;
-
-    } else {
-      const travelResults = JSON.parse(body);
-
-      travelObj.arrivals = travelResults.map((train) => {
-        return {
-          'platform': train.platformName,
-          'destination': train.towards,
-          'line': train.lineName,
-          'secondsToStation': train.timeToStation
-        };
-      });
-
-      travelObj.error = null;
-    }
-
-    res.writeHead(200, { 'content-type': 'application/json' });
-    res.end(JSON.stringify(travelObj));
-  });
-};
-
-
-/**
-* Serves the landing page
+  * Serves the landing page
   *
   * @param {Stream Object} req The request object
   * @param {Stream Object} res The response object
@@ -109,11 +50,84 @@ handlers.getContentType = (url) => {
   * @returns {content type and asset} pipes asset to the front end
   */
 handlers.serveAssets = (req, res) => {
-  res.writeHead(200, {
-    'content-type': handlers.getContentType(req.url)
-  });
   const readStream = fs.createReadStream(path.join(__dirname, '..', 'public', req.url));
-  readStream.pipe(res);
+
+  readStream.on('open', () => {
+    res.writeHead(200, {
+      'content-type': handlers.getContentType(req.url)
+    });
+    readStream.pipe(res);
+  });
+
+  readStream.on('error', () => {
+    handlers.serveNotFound(req, res);
+  });
+};
+
+
+/**
+  * This handler makes a request to the TfL API
+  *
+  * @param {Stream} req This is the request object
+  * @param {stream} res This is the response object
+  * @returns {Object} Outputs JSON data to front end
+  */
+handlers.serveTravel = (req, res) => {
+  request(`https://api.tfl.gov.uk/StopPoint/940GZZLUBLG/Arrivals`, (err, apiResponse, body) => {
+    const travelObj = {};
+
+    if (err) {
+      travelObj.error = err;
+
+    } else {
+      const travelResults = JSON.parse(body);
+
+      travelObj.arrivals = travelResults.map((train) => {
+        return {
+          'platform': train.platformName,
+          'destination': train.towards,
+          'line': train.lineName,
+          'secondsToStation': train.timeToStation
+        };
+      });
+
+      travelObj.error = null;
+    }
+
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify(travelObj));
+  });
+};
+
+
+/**
+  * This handler makes a request to the guardian API
+  *
+  * @param {Stream} req This is the request object
+  * @param {stream} res This is the response object
+  * @returns {Object} Outputs JSON data to front end
+  */
+handlers.serveNews = (req, res) => {
+  request(`https://content.guardianapis.com/search?q=travel,transport,tube&api-key=${process.env.newsKey}&show-fields=thumbnail,headline,trailText,shortUrl,wordcount`,
+    (err, apiResponse, body) => {
+      const newsObj = {};
+
+      const apiResponseBody = JSON.parse(body);
+
+      if (err || apiResponseBody.message) {
+        newsObj.error = err || 'News Api Error';
+
+      } else {
+        newsObj.articles = apiResponseBody.response.results.map((story) => {
+          return story.fields;
+        });
+        newsObj.error = null;
+
+      }
+
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify(newsObj));
+    });
 };
 
 
