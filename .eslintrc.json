@@ -17,6 +17,7 @@
     "qunit": true
   },
   "rules": {
+    "quotes": [1, "single"],
     "semi": 1,
     "no-console": 0,
     "no-unused-vars": 1,
